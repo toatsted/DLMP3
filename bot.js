@@ -27,6 +27,8 @@ let audio;
 let voiceChannel;
 let fileData;
 
+let count = 0;
+
 bot.login(config.token);
 
 function playAudio() {
@@ -37,7 +39,8 @@ function playAudio() {
     let files = fs.readdirSync('./music');
 
     while (true) {
-      audio = files[Math.floor(Math.random() * files.length)];
+      //audio = files[Math.floor(Math.random() * files.length)];
+      audio = files[count];
       console.log('Searching .mp3 file...');
       if (audio.endsWith('.mp3')) {
         break;
@@ -66,6 +69,7 @@ function playAudio() {
 
     dispatcher.on('finish', () => {
       console.log('Music has finished playing.');
+	  count++;
       playAudio();
     });
     
@@ -164,6 +168,7 @@ bot.on('message', async msg => {
     msg.reply('Skipping `' + audio + '`...');
     dispatcher.pause();
     dispatcher = null;
+	count++;
     playAudio();
   }
 
